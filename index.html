@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-commerce Shop</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            margin:0;
+            padding:20px;
+            background:#f2f2f2;
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        .controls{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        select{
+            padding:6px 10px;
+            margin:5px;
+        }
+
+        
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+            gap:15px;
+        }
+
+        
+        .card{
+            background:white;
+            padding:12px;
+            border-radius:8px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .price{
+            color:green;
+            font-weight:bold;
+        }
+
+        .rating{
+            color:orange;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2> Product Store & Catalogue</h2>
+
+<div class="controls">
+    Sort:
+    <select id="sort">
+        <option value="">None</option>
+        <option value="priceLow">Price ↑</option>
+        <option value="priceHigh">Price ↓</option>
+        <option value="nameAZ">Name A-Z</option>
+        <option value="nameZA">Name Z-A</option>
+        <option value="rateHigh">Rating ↑</option>
+        <option value="rateLow">Rating ↓</option>
+    </select>
+
+    Filter:
+    <select id="category">
+        <option value="all">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Books">Books</option>
+        <option value="Accessories">Accessories</option>
+    </select>
+</div>
+
+<div id="products" class="grid"></div>
+
+<script>
+
+const products = [
+    {name:"Laptop", price:50000, rating:5, category:"Electronics"},
+    {name:"Headphones", price:2000, rating:4, category:"Electronics"},
+    {name:"Phone", price:30000, rating:4, category:"Electronics"},
+    {name:"Mouse", price:800, rating:3, category:"Electronics"},
+    {name:"Keyboard", price:1500, rating:4, category:"Electronics"},
+
+    {name:"T-Shirt", price:600, rating:4, category:"Clothing"},
+    {name:"Jeans", price:1200, rating:5, category:"Clothing"},
+    {name:"Jacket", price:2500, rating:5, category:"Clothing"},
+    {name:"Shoes", price:2200, rating:4, category:"Clothing"},
+    {name:"Cap", price:300, rating:3, category:"Clothing"},
+
+    {name:"Novel", price:400, rating:5, category:"Books"},
+    {name:"Dictionary", price:700, rating:4, category:"Books"},
+    {name:"Comics", price:250, rating:4, category:"Books"},
+    {name:"Notebook", price:120, rating:3, category:"Books"},
+    {name:"Magazine", price:150, rating:3, category:"Books"},
+
+    {name:"Watch", price:1800, rating:5, category:"Accessories"},
+    {name:"Wallet", price:900, rating:4, category:"Accessories"},
+    {name:"Bag", price:1300, rating:4, category:"Accessories"},
+    {name:"Sunglasses", price:1100, rating:5, category:"Accessories"},
+    {name:"Belt", price:450, rating:3, category:"Accessories"}
+];
+
+let displayList = [...products];
+
+const container = document.getElementById("products");
+
+
+function showProducts(list){
+    container.innerHTML = "";
+
+    list.forEach(p=>{
+        container.innerHTML += `
+            <div class="card">
+                <h4>${p.name}</h4>
+                <p class="price">₹${p.price}</p>
+                <p class="rating">⭐ ${p.rating}</p>
+                <p>${p.category}</p>
+            </div>
+        `;
+    });
+}
+
+document.getElementById("category").onchange = function(){
+    let val = this.value;
+
+    if(val==="all") displayList = [...products];
+    else displayList = products.filter(p => p.category===val);
+
+    applySort();
+};
+
+document.getElementById("sort").onchange = applySort;
+
+function applySort(){
+    let s = document.getElementById("sort").value;
+
+    let arr = [...displayList];
+
+    if(s==="priceLow") arr.sort((a,b)=>a.price-b.price);
+    if(s==="priceHigh") arr.sort((a,b)=>b.price-a.price);
+    if(s==="nameAZ") arr.sort((a,b)=>a.name.localeCompare(b.name));
+    if(s==="nameZA") arr.sort((a,b)=>b.name.localeCompare(a.name));
+    if(s==="rateHigh") arr.sort((a,b)=>b.rating-a.rating);
+    if(s==="rateLow") arr.sort((a,b)=>a.rating-b.rating);
+
+    showProducts(arr);
+}
+
+showProducts(products);
+
+</script>
+
+</body>
+</html>
