@@ -1,6 +1,7 @@
 # ecommerce_task2
 ASSIGNMENT 2 TASK 2  Ecommerce website store of subject Full stack 
 24BCF10062 - Ram Gopal Gupta
+https://ramgopalgupta.github.io/ecommerce_task2/
  E-commerce Product Page (Live Page – 2)Objective
 Build a product listing page using HTML, CSS, and JavaScript that supports sorting and filtering.
 
